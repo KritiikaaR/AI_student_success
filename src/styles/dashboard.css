@@ -1,0 +1,540 @@
+/* page */
+.dashboard {
+  min-height: 100vh;
+  background: #f5f7fb;
+  padding: 28px;
+  font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  color: #111827; /* main text */
+
+}
+
+/* top header */
+.topbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: white;
+  padding: 16px 20px;
+  border-radius: 14px;
+  box-shadow: 0 6px 16px rgba(0,0,0,0.06);
+  margin-bottom: 18px;
+}
+
+.subHeaderCard{
+  background: white;
+  border-radius: 16px;
+  padding: 16px 20px;
+  margin: 10px 0 24px 0;
+  box-shadow: 0 8px 20px rgba(0,0,0,.04);
+}
+
+
+.subHi{
+  font-size: 16px;
+  font-weight: 700;
+  color: #111827;
+}
+
+.subTerm{
+  font-size: 13px;
+  color: #6b7280;
+  margin-top: 2px;
+}
+
+
+
+/* layout grid */
+.layout {
+  display: grid;
+  grid-template-columns: 2fr 1fr; /* main + side */
+  gap: 18px;
+}
+
+/* card base */
+.card {
+  background: white;
+  border-radius: 14px;
+  padding: 18px 20px;
+  box-shadow: 0 6px 16px rgba(0,0,0,0.06);
+}
+
+.cardTitle {
+  font-size: 14px;
+  font-weight: 700;
+  color: #111827;
+  margin: 0 0 12px 0;
+  letter-spacing: 0.2px;
+}
+
+/* stack cards */
+.stack {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+/* risk badge */
+.riskBadge {
+  display: inline-block;
+  padding: 6px 10px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.mediumRisk {
+  background: #fff7ed;
+  color: #f59e0b;
+}
+
+.lowRisk {
+  background: #ecfdf5;
+  color: #10b981;
+}
+
+.highRisk {
+  background: #fef2f2;
+  color: #dc2626;
+}
+
+
+/* small progress bar */
+.progressWrap {
+  margin-top: 10px;
+}
+
+.progressLabel {
+  font-size: 12px;
+  color: #6b7280;
+  display: flex;
+  justify-content: space-between;
+}
+
+.progressBar {
+  height: 10px;
+  background: #eef2ff;
+  border-radius: 999px;
+  overflow: hidden;
+  margin-top: 6px;
+}
+
+.progressFill {
+  height: 100%;
+  width: 65%;
+  background: #3b82f6;
+}
+
+/* ===== Risk Gauge ===== */
+.gauge {
+  width: 130px;
+  height: 65px;
+  position: relative;
+  overflow: hidden;
+}
+
+/* green-left, orange-middle, red-right */
+.gaugeArc {
+  width: 130px;
+  height: 130px;
+  border-radius: 50%;
+  background: conic-gradient(
+   from 270deg,
+    #10b981 0deg 120deg,   /* GREEN (left) */
+    #f59e0b 120deg 240deg, /* ORANGE (middle) */
+    #dc2626 240deg 360deg  /* RED (right) */
+  );
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+/* cut out the center so it becomes a thick arc */
+.gaugeMask {
+  width: 94px;
+  height: 94px;
+  border-radius: 50%;
+  background: white;
+  position: absolute;
+  top: 18px;
+  left: 18px;
+}
+
+/* needle anchored at bottom-center of the circle */
+.gaugeNeedle {
+  width: 7px;
+  height: 60px;
+  background: #111827;
+  position: absolute;
+  left: calc(50% - 1.5px);
+  top: 8px;
+  transform-origin: bottom center;
+  border-radius: 2px;
+  z-index: 5;
+}
+
+.gaugeDot {
+  width: 9px;
+  height: 9px;
+  background: #111827;
+  border-radius: 50%;
+  position: absolute;
+  left: 61px;
+  top: 62px;
+  z-index: 6;
+}
+
+.gaugeWrap {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 26px;
+}
+
+.gaugeWrap > div:first-child {
+  flex: 1;
+}
+
+
+
+
+.courseLeft {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.courseCode {
+  font-weight: 700;
+  font-size: 13px;
+}
+
+.courseName {
+  font-size: 12px;
+  color: #6b7280;
+}
+
+.pill {
+  font-size: 12px;
+  font-weight: 700;
+  padding: 6px 10px;
+  border-radius: 999px;
+}
+
+.pillLow {
+  background: #ecfdf5;
+  color: #10b981;
+}
+
+.pillMed {
+  background: #fff7ed;
+  color: #f59e0b;
+}
+
+/* checklist */
+.checkItem {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  padding: 10px 0;
+  border-bottom: 1px solid #eef2f7;
+}
+
+.checkItem:last-child {
+  border-bottom: none;
+}
+
+.checkText {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.checkTitle {
+  font-weight: 700;
+  font-size: 13px;
+}
+
+.checkSub {
+  font-size: 12px;
+  color: #6b7280;
+}
+
+.advisorRow {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+.avatar {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  background: #e5e7eb;
+}
+
+.advisorInfo {
+  display: flex;
+  flex-direction: column;
+}
+
+.advisorName {
+  font-weight: 700;
+  font-size: 13px;
+}
+
+.advisorContact {
+  font-size: 12px;
+  color: #6b7280;
+}
+
+.actionButtons {
+  width:100%;
+}
+
+
+.statsRow {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+}
+
+.statBox {
+  background: #f8fafc;
+  border-radius: 12px;
+  padding: 12px;
+}
+
+.statTop {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+}
+
+.statNum {
+  font-size: 18px;
+  font-weight: 800;
+}
+
+.statLabel {
+  font-size: 12px;
+  color: #6b7280;
+  margin-top: 6px;
+}
+
+
+.profileCard {
+  padding: 0;
+  overflow: hidden;
+}
+
+.profileImg {
+  width: 100%;
+  height: 140px;
+  object-fit: cover;
+  display: block;
+}
+
+.profilePad {
+  padding: 14px 16px;
+}
+
+.profileName {
+  font-weight: 800;
+  font-size: 14px;
+}
+
+.profileMeta {
+  font-size: 12px;
+  color: #6b7280;
+  margin-top: 4px;
+}
+
+.courseBtn {
+  width: 100%;
+  text-align: left;
+  border: none;
+  cursor: pointer;
+  background: #f8fafc;
+  border-radius: 10px;
+  padding: 10px 12px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.courseBtn:hover {
+  background: #eef2ff;
+}
+
+
+
+/* --- Risk placeholder box (replaces gauge for now) --- */
+.riskBox{
+  min-width: 180px;
+  height: 120px;
+  border-radius: 18px;
+  background: #f8fafc;
+  border: 1px solid #e5e7eb;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 6px;
+}
+
+.riskBoxLabel{
+  font-size: 12px;
+  color: #6b7280;
+  letter-spacing: .3px;
+}
+
+.riskBoxValue{
+  font-size: 28px;
+  font-weight: 800;
+  color: #111827;
+}
+
+.riskBoxHint{
+  font-size: 12px;
+  color: #9ca3af;
+}
+
+/* --- Course row chevron button --- */
+.chevBtn{
+  width: 32px;
+  height: 32px;
+  border-radius: 999px;
+  background: #f3f4f6;
+  display: grid;
+  place-items: center;
+  font-size: 18px;
+  color: #6b7280;
+  flex-shrink: 0;
+}
+
+.courseBtn:hover .chevBtn{
+  background: #e5e7eb;
+  color: #111827;
+}
+
+.btnPrimary{
+  width: 100%;
+  border: none;
+  border-radius: 12px;
+  padding: 12px 14px;
+  font-weight: 700;
+  cursor: pointer;
+  background: #111827;
+  color: white;
+}
+
+.btnPrimary:hover{
+  opacity: 0.92;
+}
+
+
+@media (max-width: 980px){
+  .layout{
+    grid-template-columns: 1fr;
+  }
+}
+
+
+
+
+
+
+/* Advisor header search */
+.advisorHeader{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 14px;
+}
+
+.searchInput{
+  width: min(360px, 100%);
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  padding: 10px 12px;
+  outline: none;
+  background: #f8fafc;
+}
+
+.searchInput:focus{
+  border-color: #93c5fd;
+}
+
+/* List rows */
+.list{ display: flex; flex-direction: column; gap: 10px; }
+
+.rowBtn{
+  width: 100%;
+  border: none;
+  cursor: pointer;
+  background: #f8fafc;
+  border-radius: 12px;
+  padding: 12px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  text-align: left;
+}
+
+.rowBtn:hover{ background: #eef2ff; }
+
+.rowLeft{ display: flex; flex-direction: column; gap: 3px; }
+.rowName{ font-weight: 800; font-size: 13px; color: #111827; }
+.rowMeta{ font-size: 12px; color: #6b7280; }
+
+.rowRight{ display: flex; align-items: center; gap: 10px; }
+.rowScore{ font-weight: 800; color: #111827; width: 28px; text-align: right; }
+
+/* Appointments */
+.apptRow{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 0;
+  border-bottom: 1px solid #eef2f7;
+}
+.apptRow:last-child{ border-bottom: none; }
+.apptTime{ font-weight: 800; font-size: 13px; }
+.apptMeta{ font-size: 12px; color: #6b7280; }
+.apptStatus{ font-size: 12px; color: #6b7280; }
+
+/* Snapshot */
+.snapTop{
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.avatarLg{
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  background: #e5e7eb;
+}
+.snapName{ font-weight: 900; }
+.snapMeta{ font-size: 12px; color: #6b7280; }
+
+/* Buttons */
+.actionGrid{
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.btnGhost{
+  border: 1px solid #e5e7eb;
+  background: #f8fafc;
+  border-radius: 12px;
+  padding: 10px 12px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.btnGhost:hover{
+  background: #eef2ff;
+}
+
