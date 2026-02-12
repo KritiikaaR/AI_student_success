@@ -1,0 +1,87 @@
+﻿.requestsPage{
+  min-height: 100vh;
+  background: #f8fafc;
+  display: flex;
+  flex-direction: column;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  color: #0f172a;
+}
+
+.requestsHeader{
+  padding: 22px 26px 8px;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.requestsHeader h1{
+  margin: 0;
+  font-size: 24px;
+  font-weight: 600;
+}
+
+.requestsHeader p{
+  margin: 8px 0 0;
+  font-size: 13px;
+  color: #64748b;
+}
+
+.requestsThemeBtn{
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  border: 1px solid rgba(15,23,42,0.12);
+  background: #f8fafc;
+  color: #0f172a;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.requestsCard{
+  margin: 10px 26px 18px;
+  border: 1px solid rgba(15,23,42,0.08);
+  border-radius: 14px;
+  background: #ffffff;
+  padding: 16px;
+}
+
+.requestsCard h2{
+  margin: 0;
+  font-size: 17px;
+  font-weight: 600;
+}
+
+.requestsCard p{
+  margin: 8px 0 0;
+  color: #64748b;
+  font-size: 14px;
+}
+
+.requestsPage--dark{
+  background: #0b1220;
+  color: #e2e8f0;
+}
+
+.requestsPage--dark .requestsHeader h1,
+.requestsPage--dark .requestsCard h2{
+  color: #e2e8f0;
+}
+
+.requestsPage--dark .requestsHeader p,
+.requestsPage--dark .requestsCard p{
+  color: #9aa8bc;
+}
+
+.requestsPage--dark .requestsCard{
+  background: #0f172a;
+  border-color: rgba(148,163,184,0.24);
+}
+
+.requestsPage--dark .requestsThemeBtn{
+  border-color: rgba(148,163,184,0.24);
+  background: rgba(15,23,42,0.92);
+  color: #e2e8f0;
+}

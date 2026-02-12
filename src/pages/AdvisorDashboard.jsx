@@ -1,4 +1,6 @@
 import "../styles/dashboard.css";
+import { useState } from "react";
+
 
 const advisor = {
   name: "Kritika",
@@ -20,6 +22,8 @@ const appts = [
 
 
 export default function AdvisorDashboard() {
+  const [selectedStudent, setSelectedStudent] = useState(null);
+
   return (
     <div className="dashboard">
       <div className="topbar">Advisor Portal</div>
@@ -29,15 +33,6 @@ export default function AdvisorDashboard() {
           <div className="subHi">Hi, {advisor.name} 👋</div>
           <div className="subTerm">{advisor.role} • TERM: {advisor.term}</div>
         </div>
-
-        <div>
-        <button
-          className="btnGhost"
-          onClick={() => window.location.href = "/student"}
-        >
-          Switch to Student
-        </button>
-      </div>
 
 
         <input
@@ -54,11 +49,12 @@ export default function AdvisorDashboard() {
 
             <div className="list">
               {students.map((s) => (
-                <button
-                  key={s.id}
-                  className="rowBtn"
-                  onClick={() => alert(`Open ${s.name}'s profile later`)}
-                >
+                  <button
+                    key={s.id}
+                    className={`rowBtn ${selectedStudent?.id === s.id ? "rowSelected" : ""}`}
+                    onClick={() => setSelectedStudent(s)}
+                  >
+
                   <div className="rowLeft">
                     <div className="rowName">{s.name}</div>
                     <div className="rowMeta">{s.id} • Last active: {s.lastActive}</div>
@@ -93,39 +89,53 @@ export default function AdvisorDashboard() {
 
         {/* RIGHT */}
         <div className="stack">
-          <div className="card">
-            <p className="cardTitle">Selected Student Snapshot</p>
-
-            <div className="snapTop">
-              <div className="avatarLg" />
-              <div>
-                <div className="snapName">Yasmeen</div>
-                <div className="snapMeta">Student • Spring 2026</div>
-              </div>
-              <span className="riskBadge mediumRisk">Medium Risk</span>
+              {!selectedStudent ? (
+            <div className="emptyState">
+              <div className="emptyTitle">No student selected</div>
+              <div className="emptySub">Click a student from the At-Risk list to view details.</div>
             </div>
+          ) : (
+            <>
+              <div className="snapTop">
+                <div className="avatarLg" />
+                <div>
+                  <div className="snapName">{selectedStudent.name}</div>
+                  <div className="snapMeta">
+                    {selectedStudent.id} • Last active: {selectedStudent.lastActive}
+                  </div>
+                </div>
+                <span className={`riskBadge ${selectedStudent.riskCls}`}>
+                  {selectedStudent.risk}
+                </span>
+              </div>
 
-            <div className="statsRow" style={{ marginTop: 12 }}>
-              <div className="statBox">
-                <div className="statNum">68%</div>
-                <div className="statLabel">Attendance</div>
+              <div className="statsRow" style={{ marginTop: 12 }}>
+                <div className="statBox">
+                  <div className="statNum">{selectedStudent.score}</div>
+                  <div className="statLabel">Risk Score</div>
+                </div>
+                <div className="statBox">
+                  <div className="statNum">68%</div>
+                  <div className="statLabel">Attendance</div>
+                </div>
+                <div className="statBox">
+                  <div className="statNum">2</div>
+                  <div className="statLabel">Missing</div>
+                </div>
               </div>
-              <div className="statBox">
-                <div className="statNum">2</div>
-                <div className="statLabel">Missing</div>
-              </div>
-              <div className="statBox">
-                <div className="statNum">78</div>
-                <div className="statLabel">Avg Grade</div>
-              </div>
-            </div>
 
-            <div style={{ marginTop: 14 }}>
-              <button className="btnPrimary" onClick={() => alert("Route to Student Dashboard later")}>
-                Open Student Dashboard
-              </button>
-            </div>
-          </div>
+              <div style={{ marginTop: 14, display: "flex", gap: 10 }}>
+                <button className="btnPrimary" onClick={() => alert("Route to Student Dashboard later")}>
+                  Open Student Dashboard
+                </button>
+
+                <button className="btnGhost" onClick={() => setSelectedStudent(null)}>
+                  Clear
+                </button>
+              </div>
+            </>
+          )}
+
 
           <div className="card">
             <p className="cardTitle">Quick Actions</p>

@@ -1,26 +1,33 @@
-import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+﻿import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
+
+import Login from "./pages/Login";
+
 import StudentDashboard from "./pages/StudentDashboard";
 import AdvisorDashboard from "./pages/AdvisorDashboard";
 
-function App() {
+import StudentPersonalInfo from "./pages/StudentPersonalInfo";
+import StudentActionPlan from "./pages/StudentActionPlan";
+import StudentHelpSupport from "./pages/StudentHelpSupport";
+import StudentRequests from "./pages/StudentRequests";
+import StudentCourseDetails from "./pages/StudentCourseDetails";
+import { ThemeProvider } from "./context/ThemeContext";
+
+export default function App() {
   return (
-    <BrowserRouter>
-      <Routes>
-        {/* Default route */}
-        <Route path="/" element={<Navigate to="/student" replace />} />
-
-        {/* Student Dashboard */}
-        <Route path="/student" element={<StudentDashboard />} />
-
-        {/* Advisor Dashboard */}
-        <Route path="/advisor" element={<AdvisorDashboard />} />
-
-        {/* Fallback */}
-        <Route path="*" element={<div>NO MATCH</div>} />
-
-      </Routes>
-    </BrowserRouter>
+    <ThemeProvider>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/login" element={<Login />} />
+          <Route path="/" element={<StudentDashboard />} />
+          <Route path="/advisor" element={<AdvisorDashboard />} />
+          <Route path="/student/personal" element={<StudentPersonalInfo />} />
+          <Route path="/student/requests" element={<StudentRequests />} />
+          <Route path="/student/help" element={<StudentHelpSupport />} />
+          <Route path="/student/action-plan" element={<StudentActionPlan />} />
+          <Route path="/student/course/:code" element={<StudentCourseDetails />} />
+          <Route path="*" element={<Navigate to="/" replace />} />
+        </Routes>
+      </BrowserRouter>
+    </ThemeProvider>
   );
 }
-
-export default App;
