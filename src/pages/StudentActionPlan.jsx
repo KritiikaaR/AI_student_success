@@ -1,4 +1,5 @@
-﻿import { useState } from "react";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { AlertCircle, CalendarDays, Check, CheckCircle2, Circle, Moon } from "lucide-react";
 import StudentBottomNav from "../components/StudentBottomNav";
 import { useTheme } from "../context/ThemeContext";
@@ -70,6 +71,7 @@ function StatusIcon({ status }) {
 
 export default function StudentActionPlan() {
   const { dark, toggleTheme } = useTheme();
+  const navigate = useNavigate();
   const [tasks, setTasks] = useState(initialTasks);
 
   const handleToggleTask = (taskId) => {
@@ -93,9 +95,14 @@ export default function StudentActionPlan() {
           <p>Your customized roadmap to academic success</p>
         </div>
 
-        <button type="button" className="apThemeBtn" aria-label="Toggle theme" title="Toggle theme" onClick={toggleTheme}>
-          <Moon size={18} />
-        </button>
+        <div className="apHeaderActions">
+          <button type="button" className="apBackBtn" onClick={() => navigate("/")}>
+            Back to Dashboard
+          </button>
+          <button type="button" className="apThemeBtn" aria-label="Toggle theme" title="Toggle theme" onClick={toggleTheme}>
+            <Moon size={18} />
+          </button>
+        </div>
       </header>
 
       <section className="apList">

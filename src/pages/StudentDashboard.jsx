@@ -1,6 +1,8 @@
-﻿import { useMemo, useState } from "react";
+﻿import { useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import DatePicker from "react-datepicker";
 import {
+  Award,
   Bell,
   BookOpen,
   Calendar,
@@ -8,9 +10,11 @@ import {
   ChevronRight,
   Clock3,
   Check,
+  Download,
   ExternalLink,
   FileText,
-  Medal,
+  GraduationCap,
+  LineChart,
   MessageCircle,
   MessageSquare,
   Moon,
@@ -18,20 +22,67 @@ import {
   TrendingUp,
   Users,
 } from "lucide-react";
+import {
+  CartesianGrid,
+  Legend,
+  Line,
+  LineChart as RechartsLineChart,
+  ResponsiveContainer,
+  Tooltip,
+  XAxis,
+  YAxis,
+} from "recharts";
 
 import profileImg from "../assets/kriti.jpg.jpeg";
 import StudentBottomNav from "../components/StudentBottomNav";
 import { useTheme } from "../context/ThemeContext";
+import { createStoredRequest } from "../utils/requestStore";
 import "../styles/dashboard.css";
+import "react-datepicker/dist/react-datepicker.css";
 
 const QUICK_ACCESS = [
   { label: "Course Materials", icon: BookOpen },
-  { label: "Class Schedule", icon: CalendarDays },
-  { label: "Assignments", icon: FileText },
-  { label: "Grades", icon: Medal },
+  { label: "Credits", icon: GraduationCap },
+  { label: "Course Performance", icon: LineChart },
   { label: "Study Groups", icon: Users },
   { label: "Notifications", icon: Bell },
 ];
+
+const COURSE_MATERIALS_PLACEHOLDER = [
+  { id: "m1", title: "Introduction to Programming - Lecture Slides Week 8", meta: "CS101", fileType: "PDF", size: "2.4 MB", fileUrl: "#" },
+  { id: "m2", title: "Calculus II - Problem Set 5", meta: "MATH201", fileType: "PDF", size: "1.1 MB", fileUrl: "#" },
+  { id: "m3", title: "Physics Lab Manual - Chapter 4", meta: "PHYS151", fileType: "PDF", size: "3.2 MB", fileUrl: "#" },
+  { id: "m4", title: "Data Structures - Code Examples", meta: "CS250", fileType: "ZIP", size: "5.7 MB", fileUrl: "#" },
+];
+
+function normalizeGpa(gpa, max) {
+  return Math.round((gpa / max) * 100);
+}
+
+function ecaBalanceScore(hoursPerWeek) {
+  const hours = Math.max(0, hoursPerWeek);
+  const idealMin = 4;
+  const idealMax = 8;
+
+  if (hours === 0) return 0;
+  if (hours < idealMin) return Math.round((hours / idealMin) * 85);
+  if (hours <= idealMax) return 100;
+  if (hours <= 12) return Math.round(100 - ((hours - idealMax) / (12 - idealMax)) * 45);
+  if (hours <= 16) return Math.round(55 - ((hours - 12) / 4) * 35);
+  return 15;
+}
+
+function scoreTone(score) {
+  if (score >= 80) return "good";
+  if (score >= 60) return "warn";
+  return "bad";
+}
+
+function getLocalMinDate() {
+  const now = new Date();
+  now.setHours(0, 0, 0, 0);
+  return now;
+}
 
 export default function StudentDashboard() {
   const navigate = useNavigate();
@@ -39,22 +90,76 @@ export default function StudentDashboard() {
   const [photoOpen, setPhotoOpen] = useState(false);
   const [messageOpen, setMessageOpen] = useState(false);
   const [apptOpen, setApptOpen] = useState(false);
+  const [courseMaterialsOpen, setCourseMaterialsOpen] = useState(false);
+  const [creditsOpen, setCreditsOpen] = useState(false);
+  const [coursePerformanceOpen, setCoursePerformanceOpen] = useState(false);
   const [studyGroupsOpen, setStudyGroupsOpen] = useState(false);
   const [notificationsOpen, setNotificationsOpen] = useState(false);
+  const [courseMaterials, setCourseMaterials] = useState(COURSE_MATERIALS_PLACEHOLDER);
   const [messageSubject, setMessageSubject] = useState("");
   const [messageBody, setMessageBody] = useState("");
+  const [apptDate, setApptDate] = useState(null);
+  const [apptTime, setApptTime] = useState("");
+  const [apptReason, setApptReason] = useState("");
 
   const student = useMemo(
-    () => ({
-      name: "Student Name",
-      term: "Fall 2024",
-      role: "Undergraduate Student",
-      gpa: { score: 80, value: "3.2 / 4.0", tone: "good" },
-      attendance: { score: 92, value: "92%", tone: "good" },
-      eca: { score: 30, value: "3 hours", tone: "bad" },
-      successScore: 77,
-      riskLabel: "Medium Risk",
-    }),
+    () => {
+      const gpaRaw = 3.2;
+      const gpaMax = 4.0;
+      const attendanceRaw = 92;
+      const ecaHours = 3;
+
+      const gpaScore = normalizeGpa(gpaRaw, gpaMax);
+      const attendanceScore = attendanceRaw;
+      const ecaScore = ecaBalanceScore(ecaHours);
+
+      return {
+        name: "Student Name",
+        term: "Fall 2024",
+        role: "Undergraduate Student",
+        gpa: {
+          score: gpaScore,
+          value: `${gpaRaw.toFixed(1)} / ${gpaMax.toFixed(1)}`,
+          tone: scoreTone(gpaScore),
+          detail: {
+            title: "GPA Conversion",
+            summary: `${gpaScore}/100`,
+            formula: `(${gpaRaw.toFixed(1)} / ${gpaMax.toFixed(1)}) × 100 = ${gpaScore}`,
+            breakdown: `Raw GPA: ${gpaRaw.toFixed(1)} out of ${gpaMax.toFixed(1)}`,
+            scale: "Scale: GPA uses 0-4.0, dashboard compares everything on a 0-100 scale.",
+            note: "This score does not change your transcript GPA. It is only a normalized dashboard view.",
+          },
+        },
+        attendance: {
+          score: attendanceScore,
+          value: `${attendanceRaw}%`,
+          tone: scoreTone(attendanceScore),
+          detail: {
+            title: "Attendance Scale",
+            summary: `${attendanceScore}/100`,
+            formula: `${attendanceRaw}% attendance = ${attendanceScore}/100`,
+            breakdown: `Raw attendance: ${attendanceRaw}%`,
+            scale: "Scale: Already percentage-based, so no extra conversion is needed.",
+            note: "Consistent attendance usually supports assignment completion and exam readiness.",
+          },
+        },
+        eca: {
+          score: ecaScore,
+          value: `${ecaHours} hours`,
+          tone: scoreTone(ecaScore),
+          detail: {
+            title: "ECA Balance Score",
+            summary: `${ecaScore}/100`,
+            formula: `${ecaHours} hrs/week -> ${ecaScore}/100`,
+            breakdown: `Raw ECA time: ${ecaHours} hours/week`,
+            scale: "Scale: 4-8 hrs/week is ideal (100). Too little or too much reduces score.",
+            note: "100 hours/week is not considered good. Overload lowers this balance metric.",
+          },
+        },
+        successScore: 77,
+        riskLabel: "Medium Risk",
+      };
+    },
     []
   );
 
@@ -125,6 +230,83 @@ export default function StudentDashboard() {
     []
   );
 
+  const creditsSummary = useMemo(() => {
+    const completed = 78;
+    const total = 120;
+    return {
+      completed,
+      total,
+      remaining: Math.max(0, total - completed),
+      progress: Math.round((completed / total) * 100),
+    };
+  }, []);
+
+  const performanceTrend = useMemo(
+    () => [
+      { period: "W1", MATH201: 74, PHYS151: 71, CS250: 79, ENGL101: 85 },
+      { period: "W2", MATH201: 76, PHYS151: 73, CS250: 81, ENGL101: 86 },
+      { period: "W3", MATH201: 75, PHYS151: 72, CS250: 83, ENGL101: 84 },
+      { period: "W4", MATH201: 78, PHYS151: 74, CS250: 84, ENGL101: 87 },
+      { period: "W5", MATH201: 80, PHYS151: 76, CS250: 86, ENGL101: 88 },
+      { period: "W6", MATH201: 79, PHYS151: 77, CS250: 85, ENGL101: 89 },
+      { period: "W7", MATH201: 82, PHYS151: 79, CS250: 88, ENGL101: 90 },
+      { period: "W8", MATH201: 84, PHYS151: 80, CS250: 90, ENGL101: 91 },
+    ],
+    []
+  );
+
+  useEffect(() => {
+    let isActive = true;
+
+    const loadCourseMaterials = async () => {
+      const apiBaseUrl = import.meta.env.VITE_API_BASE_URL;
+
+      // Placeholder fallback for now. Once backend is connected, uploaded files
+      // from the API should replace these and render directly for students.
+      if (!apiBaseUrl) {
+        setCourseMaterials(COURSE_MATERIALS_PLACEHOLDER);
+        return;
+      }
+
+      try {
+        const response = await fetch(`${apiBaseUrl}/student/course-materials`, {
+          method: "GET",
+          credentials: "include",
+        });
+
+        if (!response.ok) throw new Error("Failed to fetch course materials.");
+
+        const payload = await response.json();
+        const materialsFromApi = Array.isArray(payload?.materials) ? payload.materials : [];
+
+        if (!isActive) return;
+
+        if (materialsFromApi.length > 0) {
+          setCourseMaterials(
+            materialsFromApi.map((item, index) => ({
+              id: item.id ?? `material-${index}`,
+              title: item.title ?? "Untitled Material",
+              meta: item.courseCode ?? "COURSE",
+              fileType: item.fileType ?? "FILE",
+              size: item.sizeLabel ?? "N/A",
+              fileUrl: item.fileUrl ?? "#",
+            }))
+          );
+          return;
+        }
+
+        setCourseMaterials(COURSE_MATERIALS_PLACEHOLDER);
+      } catch {
+        if (isActive) setCourseMaterials(COURSE_MATERIALS_PLACEHOLDER);
+      }
+    };
+
+    loadCourseMaterials();
+    return () => {
+      isActive = false;
+    };
+  }, []);
+
   const closeMessageModal = () => {
     setMessageOpen(false);
     setMessageSubject("");
@@ -135,6 +317,46 @@ export default function StudentDashboard() {
     if (!messageSubject.trim() || !messageBody.trim()) return;
     closeMessageModal();
   };
+
+  const closeApptModal = () => {
+    setApptOpen(false);
+    setApptDate(null);
+    setApptTime("");
+    setApptReason("");
+  };
+
+  const handleSendAppointment = () => {
+    if (!apptDate || !apptTime || !apptReason.trim()) return;
+
+    createStoredRequest({
+      type: "appointment",
+      title: `Appointment Request with ${advisor.name}`,
+      status: "pending",
+      appointment: {
+        advisorName: advisor.name,
+        studentName: student.name,
+        date: apptDate.toISOString(),
+        time: apptTime,
+        reason: apptReason.trim(),
+      },
+    });
+
+    closeApptModal();
+  };
+
+  const minAppointmentDate = useMemo(() => getLocalMinDate(), []);
+
+  useEffect(() => {
+    const lockScroll = studyGroupsOpen || notificationsOpen || courseMaterialsOpen || creditsOpen || coursePerformanceOpen;
+    if (!lockScroll) return;
+
+    const originalOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+
+    return () => {
+      document.body.style.overflow = originalOverflow;
+    };
+  }, [studyGroupsOpen, notificationsOpen, courseMaterialsOpen, creditsOpen, coursePerformanceOpen]);
 
   return (
     <div className={dark ? "dash dash--dark" : "dash"}>
@@ -251,14 +473,27 @@ export default function StudentDashboard() {
         <div className="rowAO__left">
           <Section title="Academic Overview">
             <div className="overviewGauges">
-              <MiniGauge label="GPA" value={student.gpa.score} sub={student.gpa.value} tone={student.gpa.tone} />
+              <MiniGauge
+                label="GPA"
+                value={student.gpa.score}
+                sub={student.gpa.value}
+                tone={student.gpa.tone}
+                detail={student.gpa.detail}
+              />
               <MiniGauge
                 label="Attendance"
                 value={student.attendance.score}
                 sub={student.attendance.value}
                 tone={student.attendance.tone}
+                detail={student.attendance.detail}
               />
-              <MiniGauge label="Weekly ECA Hours" value={student.eca.score} sub={student.eca.value} tone={student.eca.tone} />
+              <MiniGauge
+                label="Weekly ECA Hours"
+                value={student.eca.score}
+                sub={student.eca.value}
+                tone={student.eca.tone}
+                detail={student.eca.detail}
+              />
             </div>
           </Section>
         </div>
@@ -294,6 +529,9 @@ export default function StudentDashboard() {
           {QUICK_ACCESS.map((item) => {
             const ItemIcon = item.icon;
             const handleQuickClick = () => {
+              if (item.label === "Course Materials") setCourseMaterialsOpen(true);
+              if (item.label === "Credits") setCreditsOpen(true);
+              if (item.label === "Course Performance") setCoursePerformanceOpen(true);
               if (item.label === "Study Groups") setStudyGroupsOpen(true);
               if (item.label === "Notifications") setNotificationsOpen(true);
             };
@@ -359,40 +597,200 @@ export default function StudentDashboard() {
         </div>
       </Modal>
 
-      <Modal open={apptOpen} onClose={() => setApptOpen(false)} title="Schedule Appointment">
-        <div className="modalText">Scheduler placeholder.</div>
-        <div className="modalActions">
-          <button type="button" className="btn btn--ghost" onClick={() => setApptOpen(false)}>
-            Close
+      <Modal open={apptOpen} onClose={closeApptModal} title={`Schedule Appointment with ${advisor.name}`}>
+        <p className="apptSubtext">Select a date and time for your advisor meeting</p>
+
+        <div className="apptForm">
+          <label htmlFor="appt-date" className="apptLabel">
+            Select Date
+          </label>
+          <div className="apptFieldShell">
+            <CalendarDays size={20} className="apptFieldIcon" />
+            <DatePicker
+              id="appt-date"
+              selected={apptDate}
+              onChange={(date) => setApptDate(date)}
+              minDate={minAppointmentDate}
+              placeholderText="MM/DD/YYYY"
+              dateFormat="MM/dd/yyyy"
+              className="apptInput apptInput--date"
+              calendarClassName="apptDatePicker"
+              popperClassName="apptDatePickerPopper"
+              showPopperArrow={false}
+            />
+          </div>
+
+          <label htmlFor="appt-time" className="apptLabel">
+            Select Time
+          </label>
+          <div className="apptFieldShell">
+            <Clock3 size={20} className="apptFieldIcon" />
+            <select
+              id="appt-time"
+              className="apptInput apptSelect"
+              value={apptTime}
+              onChange={(event) => setApptTime(event.target.value)}
+            >
+              <option value="">Select a time slot</option>
+              <option value="09:00 AM">09:00 AM</option>
+              <option value="10:00 AM">10:00 AM</option>
+              <option value="11:00 AM">11:00 AM</option>
+              <option value="01:00 PM">01:00 PM</option>
+              <option value="02:00 PM">02:00 PM</option>
+              <option value="03:00 PM">03:00 PM</option>
+              <option value="04:00 PM">04:00 PM</option>
+            </select>
+          </div>
+
+          <label htmlFor="appt-reason" className="apptLabel">
+            Reason for Appointment
+          </label>
+          <textarea
+            id="appt-reason"
+            className="apptTextarea"
+            placeholder="e.g., Discuss course selection for next semester, review academic progress..."
+            value={apptReason}
+            onChange={(event) => setApptReason(event.target.value)}
+          />
+        </div>
+
+        <div className="apptActions">
+          <button type="button" className="apptBtn apptBtn--cancel" onClick={closeApptModal}>
+            Cancel
           </button>
-          <button type="button" className="btn btn--primary" onClick={() => setApptOpen(false)}>
-            Confirm
+          <button
+            type="button"
+            className="apptBtn apptBtn--send"
+            onClick={handleSendAppointment}
+            disabled={!apptDate || !apptTime || !apptReason.trim()}
+          >
+            Send Request
           </button>
         </div>
       </Modal>
 
       <QuickLinksModal
+        open={courseMaterialsOpen}
+        onClose={() => setCourseMaterialsOpen(false)}
+        title="Course Materials"
+        icon={<BookOpen size={22} />}
+        iconClass="quickModalHeadIcon quickModalHeadIcon--blue"
+      >
+        <div className="quickModalScroll">
+          {courseMaterials.length > 0 ? (
+            courseMaterials.map((item) => (
+              <article key={item.id} className="materialsCard">
+                <div className="materialsMain">
+                  <h3 className="quickModalItemTitle">{item.title}</h3>
+                  <p className="quickModalItemMeta">
+                    {item.meta} • {item.fileType} • {item.size}
+                  </p>
+                </div>
+                <a
+                  href={item.fileUrl}
+                  className="materialDownloadBtn"
+                  download
+                  onClick={(event) => {
+                    if (item.fileUrl === "#") event.preventDefault();
+                  }}
+                >
+                  <Download size={16} />
+                  <span>Download</span>
+                </a>
+              </article>
+            ))
+          ) : (
+            <div className="materialEmpty">No course materials available.</div>
+          )}
+        </div>
+      </QuickLinksModal>
+
+      <QuickLinksModal
+        open={creditsOpen}
+        onClose={() => setCreditsOpen(false)}
+        title="Credits"
+        icon={<Award size={22} />}
+        iconClass="quickModalHeadIcon quickModalHeadIcon--green"
+      >
+        <div className="quickModalScroll">
+          <article className="creditsCard">
+            <div className="creditsStats">
+              <div className="creditsStatBox">
+                <div className="creditsStatLabel">Credits Completed</div>
+                <div className="creditsStatValue">{creditsSummary.completed}</div>
+              </div>
+              <div className="creditsStatBox">
+                <div className="creditsStatLabel">Credits Remaining</div>
+                <div className="creditsStatValue">{creditsSummary.remaining}</div>
+              </div>
+              <div className="creditsStatBox">
+                <div className="creditsStatLabel">Total Credits Required</div>
+                <div className="creditsStatValue">{creditsSummary.total}</div>
+              </div>
+            </div>
+            <div className="creditsProgressWrap">
+              <div className="creditsProgressTop">
+                <span>Progress</span>
+                <span>{creditsSummary.progress}%</span>
+              </div>
+              <div className="creditsProgressTrack">
+                <div className="creditsProgressFill" style={{ width: `${creditsSummary.progress}%` }} />
+              </div>
+            </div>
+          </article>
+        </div>
+      </QuickLinksModal>
+
+      <QuickLinksModal
+        open={coursePerformanceOpen}
+        onClose={() => setCoursePerformanceOpen(false)}
+        title="Course Performance"
+        icon={<LineChart size={22} />}
+        iconClass="quickModalHeadIcon quickModalHeadIcon--teal"
+      >
+        <div className="quickModalScroll">
+          <article className="performanceCard">
+            <div className="performanceChartWrap">
+              <ResponsiveContainer width="100%" height={300}>
+                <RechartsLineChart data={performanceTrend} margin={{ top: 8, right: 8, left: -12, bottom: 8 }}>
+                  <CartesianGrid strokeDasharray="3 3" stroke="#cbd5e1" />
+                  <XAxis dataKey="period" tick={{ fontSize: 12 }} />
+                  <YAxis domain={[60, 100]} tick={{ fontSize: 12 }} />
+                  <Tooltip />
+                  <Legend wrapperStyle={{ fontSize: "12px" }} />
+                  <Line type="monotone" dataKey="MATH201" stroke="#2563eb" strokeWidth={2} dot={false} />
+                  <Line type="monotone" dataKey="PHYS151" stroke="#9333ea" strokeWidth={2} dot={false} />
+                  <Line type="monotone" dataKey="CS250" stroke="#0d9488" strokeWidth={2} dot={false} />
+                  <Line type="monotone" dataKey="ENGL101" stroke="#f97316" strokeWidth={2} dot={false} />
+                </RechartsLineChart>
+              </ResponsiveContainer>
+            </div>
+          </article>
+        </div>
+      </QuickLinksModal>
+
+      <QuickLinksModal
         open={studyGroupsOpen}
         onClose={() => setStudyGroupsOpen(false)}
         title="Study Groups"
-        icon={<Users size={28} />}
+        icon={<Users size={22} />}
         iconClass="quickModalHeadIcon quickModalHeadIcon--purple"
       >
         <div className="quickModalScroll">
           {studyGroups.map((group) => (
             <article key={group.title} className="studyCard">
-              <h3>{group.title}</h3>
-              <p className="studyMeta">{group.meta}</p>
+              <h3 className="quickModalItemTitle">{group.title}</h3>
+              <p className="quickModalItemMeta studyMeta">{group.meta}</p>
               <p className="studyLine">
-                <Clock3 size={22} />
+                <Clock3 size={18} />
                 <span>{group.time}</span>
               </p>
               <p className="studyLine">
-                <ExternalLink size={22} />
+                <ExternalLink size={18} />
                 <span>{group.room}</span>
               </p>
               <button type="button" className="studyChatBtn">
-                <MessageCircle size={22} />
+                <MessageCircle size={18} />
                 <span>Join Chat</span>
               </button>
             </article>
@@ -404,16 +802,16 @@ export default function StudentDashboard() {
         open={notificationsOpen}
         onClose={() => setNotificationsOpen(false)}
         title="Notifications"
-        icon={<Bell size={28} />}
+        icon={<Bell size={22} />}
         iconClass="quickModalHeadIcon quickModalHeadIcon--red"
       >
         <div className="quickModalScroll">
           {notifications.map((note) => (
             <article key={note.title} className="notifyCard">
               <div className="notifyDot" />
-              <h3>{note.title}</h3>
-              <p>{note.body}</p>
-              <div className="notifyTime">{note.time}</div>
+              <h3 className="quickModalItemTitle">{note.title}</h3>
+              <p className="quickModalItemMeta">{note.body}</p>
+              <div className="notifyTime quickModalItemTime">{note.time}</div>
             </article>
           ))}
         </div>
@@ -468,14 +866,14 @@ function Gauge({ value }) {
   );
 }
 
-function MiniGauge({ label, value, sub, tone }) {
+function MiniGauge({ label, value, sub, tone, detail }) {
   const clamped = Math.max(0, Math.min(100, value));
   const circumference = Math.PI * 58;
   const dashOffset = circumference * (1 - clamped / 100);
   const color = tone === "bad" ? "#ef4444" : "#10b981";
 
   return (
-    <div className="miniGaugeCard">
+    <div className="miniGaugeCard" tabIndex={0}>
       <svg className="miniGaugeSvg" viewBox="0 0 140 86" role="img" aria-label={`${label}: ${clamped}`}>
         <path d="M 14 70 A 56 56 0 0 1 126 70" className="miniTrack" />
         <path
@@ -488,6 +886,19 @@ function MiniGauge({ label, value, sub, tone }) {
       <div className="miniValue">{clamped}</div>
       <div className="miniLabel">{label}</div>
       <div className="miniSub">{sub}</div>
+      <div className="miniTooltip">
+        <div className="miniTooltipHeader">
+          <div className="miniTooltipTitle">{detail?.title || `${label} Details`}</div>
+          <div className={`miniTooltipTone miniTooltipTone--${tone || "good"}`}>
+            {tone === "good" ? "Good" : tone === "warn" ? "Moderate" : "Needs Attention"}
+          </div>
+        </div>
+        <div className="miniTooltipScore">{detail?.summary || `${clamped}/100`}</div>
+        <p className="miniTooltipLine miniTooltipLine--strong">{detail?.formula || `Converted to ${clamped}/100`}</p>
+        <p className="miniTooltipLine">{detail?.breakdown || "Raw value converted for consistent comparison."}</p>
+        <p className="miniTooltipLine">{detail?.scale || "All indicators are shown on a 100-point dashboard scale."}</p>
+        <p className="miniTooltipNote">{detail?.note || "Score shown in a 100-point format."}</p>
+      </div>
     </div>
   );
 }
@@ -548,6 +959,12 @@ function QuickLinksModal({ open, onClose, title, icon, iconClass, children }) {
     </div>
   );
 }
+
+
+
+
+
+
 
 
 

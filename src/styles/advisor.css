@@ -1,0 +1,1193 @@
+.advisorPage {
+  --bg: #f8fafc;
+  --text: #0f172a;
+  --muted: #64748b;
+  --line: #e5e7eb;
+  --card: #ffffff;
+  --blue: #2563eb;
+
+  box-sizing: border-box;
+  width: min(1240px, calc(100% - 96px));
+  min-height: 100vh;
+  margin: 0 auto;
+  padding: 20px 22px 18px;
+  background: var(--bg);
+  color: var(--text);
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.advisorPage--dark {
+  --bg: #0b1220;
+  --text: #e2e8f0;
+  --muted: #9aa8bc;
+  --line: rgba(148, 163, 184, 0.22);
+  --card: #0f172a;
+}
+
+.advisorHeader {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.advisorHeader h1 {
+  margin: 0;
+  font-size: 32px;
+  line-height: 1.08;
+  font-weight: 400;
+}
+
+.advisorHeader h1 span {
+  font-weight: 700;
+}
+
+.advisorHeader p {
+  margin: 8px 0 0;
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.advisorThemeBtn {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  border: 1px solid var(--line);
+  background: var(--card);
+  color: var(--text);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.advisorHeaderActions {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.advisorAvatarBtn {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  border: 1px solid var(--line);
+  background: var(--card);
+  padding: 0;
+  cursor: pointer;
+  overflow: hidden;
+}
+
+.advisorAvatar {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.advisorDivider {
+  height: 1px;
+  background: var(--line);
+  margin: 18px 0;
+}
+
+.advisorMetrics {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.metricCard {
+  text-align: center;
+  border-radius: 12px;
+  padding: 8px 4px;
+}
+
+.metricIcon {
+  margin: 0 auto;
+}
+
+.metricIcon--blue { color: #2563eb; }
+.metricIcon--red { color: #ef4444; }
+.metricIcon--green { color: #059669; }
+.metricIcon--purple { color: #9333ea; }
+
+.metricLabel {
+  margin-top: 8px;
+  font-size: 12px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: #475569;
+}
+
+.metricValue {
+  margin-top: 6px;
+  font-size: 36px;
+  line-height: 1;
+  font-weight: 500;
+}
+
+.advisorPanel {
+  border-radius: 14px;
+  padding: 0 6px;
+}
+
+.advisorControls {
+  display: grid;
+  grid-template-columns: auto auto 1fr auto;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 14px;
+}
+
+.filterBtn {
+  height: 42px;
+  border-radius: 10px;
+  border: 1px solid #2563eb;
+  background: #2563eb;
+  color: #ffffff;
+  padding: 0 14px;
+  font-size: 13px;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+}
+
+.filterSelect {
+  height: 42px;
+  min-width: 170px;
+  border-radius: 10px;
+  border: 1px solid #cbd5e1;
+  background: var(--card);
+  color: var(--text);
+  padding: 0 12px;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.searchWrap {
+  height: 42px;
+  border: 1px solid #cbd5e1;
+  border-radius: 10px;
+  background: var(--card);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0 12px;
+}
+
+.searchIcon {
+  color: #94a3b8;
+  flex-shrink: 0;
+}
+
+.searchInput {
+  width: 100%;
+  border: 0;
+  outline: none;
+  background: transparent;
+  color: var(--text);
+  font-size: 13px;
+}
+
+.searchInput::placeholder {
+  color: #94a3b8;
+}
+
+.exportBtn {
+  height: 42px;
+  border-radius: 10px;
+  border: 1px solid #cbd5e1;
+  background: var(--card);
+  color: var(--text);
+  padding: 0 14px;
+  font-size: 13px;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+}
+
+.advisorTableWrap {
+  overflow-x: auto;
+  padding: 0 2px;
+}
+
+.advisorTable {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.advisorTable th {
+  text-align: left;
+  font-size: 13px;
+  font-weight: 600;
+  color: #334155;
+  padding: 14px 12px;
+  border-bottom: 1px solid var(--line);
+}
+
+.advisorTable td {
+  padding: 12px;
+  border-bottom: 1px solid var(--line);
+  font-size: 13px;
+  vertical-align: middle;
+}
+
+.studentCell {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.studentAvatar {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: #dbeafe;
+  color: #1d4ed8;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+.studentName {
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.studentSub {
+  margin-top: 4px;
+  color: #64748b;
+  font-size: 12px;
+}
+
+.cellMuted {
+  color: #334155;
+}
+
+.enrollmentPill {
+  border-radius: 4px;
+  background: #bbf7d0;
+  color: #047857;
+  padding: 4px 8px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.riskText {
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.riskText--high { color: #ef4444; }
+.riskText--attention { color: #f97316; }
+.riskText--track { color: #059669; }
+
+.updatedCell {
+  color: #64748b;
+  display: grid;
+  gap: 3px;
+  font-size: 12px;
+}
+
+.updatedCell div:first-child {
+  color: #334155;
+  font-size: 14px;
+}
+
+.fileBars {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.fileBars span {
+  display: inline-block;
+  height: 7px;
+  border-radius: 999px;
+}
+
+.fileBars span:first-child {
+  width: 52px;
+  background: #eab308;
+}
+
+.fileBars span:last-child {
+  width: 28px;
+  background: #3b82f6;
+}
+
+.advisorPage--dark .metricLabel,
+.advisorPage--dark .advisorTable th,
+.advisorPage--dark .studentSub,
+.advisorPage--dark .updatedCell,
+.advisorPage--dark .searchInput::placeholder {
+  color: #9aa8bc;
+}
+
+.advisorPage--dark .searchWrap,
+.advisorPage--dark .filterSelect,
+.advisorPage--dark .exportBtn,
+.advisorPage--dark .advisorThemeBtn,
+.advisorPage--dark .advisorAvatarBtn {
+  border-color: rgba(148, 163, 184, 0.28);
+  background: rgba(15, 23, 42, 0.92);
+  color: #e2e8f0;
+}
+
+.advisorPage--dark .studentAvatar {
+  background: rgba(37, 99, 235, 0.28);
+  color: #bfdbfe;
+}
+
+.advisorPage--dark .cellMuted,
+.advisorPage--dark .updatedCell div:first-child {
+  color: #dbe7f5;
+}
+
+.advisorPage--dark .enrollmentPill {
+  background: rgba(22, 163, 74, 0.3);
+  color: #86efac;
+}
+
+.advisorPhotoOverlay {
+  position: fixed;
+  inset: 0;
+  z-index: 80;
+  background: rgba(15, 23, 42, 0.5);
+  display: grid;
+  place-items: center;
+  padding: 16px;
+}
+
+.advisorPhotoCard {
+  width: min(520px, calc(100vw - 28px));
+  border-radius: 16px;
+  border: 1px solid var(--line);
+  background: var(--card);
+  padding: 14px;
+}
+
+.advisorPhotoHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.advisorPhotoTitle {
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.advisorPhotoClose {
+  width: 32px;
+  height: 32px;
+  border: 0;
+  border-radius: 8px;
+  background: transparent;
+  color: var(--text);
+  font-size: 22px;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.advisorPhotoWrap {
+  margin-top: 12px;
+  text-align: center;
+}
+
+.advisorPhotoLarge {
+  width: min(360px, 100%);
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+  border-radius: 14px;
+  border: 1px solid var(--line);
+}
+
+.advisorQuickActions {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.advisorNavCard {
+  border: 1px solid #d8e0ec;
+  border-radius: 14px;
+  background: #ffffff;
+  padding: 14px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  text-align: left;
+  cursor: pointer;
+  transition: border-color 160ms ease, box-shadow 160ms ease, transform 160ms ease;
+}
+
+.advisorNavCard:hover {
+  border-color: #93c5fd;
+  box-shadow: 0 10px 24px rgba(15, 23, 42, 0.08);
+  transform: translateY(-1px);
+}
+
+.advisorNavCardIconWrap {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  background: #dbeafe;
+  color: #1d4ed8;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.advisorNavCardIconWrap--green {
+  background: #dcfce7;
+  color: #15803d;
+}
+
+.advisorNavCardBody {
+  min-width: 0;
+}
+
+.advisorNavCardTitle {
+  font-size: 15px;
+  font-weight: 700;
+  color: #0f172a;
+}
+
+.advisorNavCardSub {
+  margin-top: 4px;
+  color: #64748b;
+  font-size: 13px;
+  line-height: 1.35;
+}
+
+.advisorNavCardArrow {
+  margin-left: auto;
+  color: #94a3b8;
+  flex-shrink: 0;
+}
+
+.advisorCardSection {
+  border-radius: 14px;
+}
+
+.advisorSectionHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.advisorSectionHeader h2 {
+  margin: 0;
+  font-size: 22px;
+  font-weight: 600;
+}
+
+.messageFilters {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.messageFilterBtn {
+  height: 30px;
+  border-radius: 999px;
+  border: 1px solid #d7deea;
+  background: #f1f5f9;
+  color: #334155;
+  padding: 0 12px;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.messageFilterBtn--active {
+  background: #2563eb;
+  border-color: #2563eb;
+  color: #ffffff;
+}
+
+.messagesPanel {
+  margin-top: 12px;
+  display: grid;
+  grid-template-columns: 260px 1fr;
+  gap: 12px;
+}
+
+.messagesList {
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  max-height: 336px;
+  overflow: auto;
+  padding: 6px;
+  display: grid;
+  gap: 8px;
+}
+
+.messageItem {
+  border: 1px solid #dee6f2;
+  border-radius: 12px;
+  background: #ffffff;
+  padding: 8px;
+  text-align: left;
+  cursor: pointer;
+}
+
+.messageItem--active {
+  border-color: #93c5fd;
+  box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.12);
+}
+
+.messageItemTop {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+}
+
+.messageAvatar {
+  width: 30px;
+  height: 30px;
+  border-radius: 999px;
+  background: #dbeafe;
+  color: #1d4ed8;
+  font-size: 11px;
+  font-weight: 700;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.messageMeta {
+  min-width: 0;
+}
+
+.messageName {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--text);
+}
+
+.messageSubject {
+  margin-top: 2px;
+  color: #1e293b;
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.messageStar {
+  margin-left: auto;
+  flex-shrink: 0;
+  color: #b0bccf;
+}
+
+.messageStar--active {
+  color: #eab308;
+}
+
+.messagePreview {
+  margin-top: 6px;
+  font-size: 11px;
+  line-height: 1.3;
+  color: #475569;
+}
+
+.messageTime {
+  margin-top: 6px;
+  color: #64748b;
+  font-size: 11px;
+}
+
+.messageReader {
+  border: 1px dashed #cad4e2;
+  border-radius: 12px;
+  min-height: 336px;
+  padding: 18px;
+  background: rgba(248, 250, 252, 0.45);
+}
+
+.messageReaderContent {
+  display: grid;
+  gap: 12px;
+}
+
+.messageReaderHead {
+  border-bottom: 1px solid var(--line);
+  padding-bottom: 10px;
+}
+
+.messageReaderTitle {
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.messageReaderFrom {
+  margin-top: 4px;
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.messageReaderBody {
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.5;
+  color: #334155;
+}
+
+.messageReaderEmpty {
+  height: 100%;
+  min-height: 290px;
+  display: grid;
+  place-content: center;
+  justify-items: center;
+  gap: 8px;
+  color: #94a3b8;
+  font-size: 20px;
+}
+
+.emptyAppointmentBox {
+  margin-top: 12px;
+  border: 1px dashed #cad4e2;
+  border-radius: 12px;
+  min-height: 120px;
+  display: grid;
+  place-content: center;
+  justify-items: center;
+  gap: 8px;
+  color: #94a3b8;
+  font-size: 14px;
+}
+
+.appointmentList {
+  margin-top: 12px;
+  display: grid;
+  gap: 10px;
+}
+
+.appointmentItem {
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: #ffffff;
+  padding: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.appointmentMain {
+  min-width: 0;
+}
+
+.appointmentTitle {
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.appointmentMeta {
+  margin-top: 4px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  color: #475569;
+  font-size: 12px;
+}
+
+.appointmentReason {
+  margin: 6px 0 0;
+  font-size: 13px;
+  color: #334155;
+}
+
+.appointmentSubmitted {
+  margin-top: 6px;
+  color: #64748b;
+  font-size: 12px;
+}
+
+.appointmentActions {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+.apptActionBtn {
+  height: 36px;
+  border-radius: 10px;
+  border: 1px solid transparent;
+  padding: 0 12px;
+  font-size: 13px;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+}
+
+.apptActionBtn--approve {
+  background: #16a34a;
+  border-color: #16a34a;
+  color: #ffffff;
+}
+
+.apptActionBtn--reject {
+  background: #ffffff;
+  border-color: #fca5a5;
+  color: #b91c1c;
+}
+
+.apptStatusPill {
+  border-radius: 999px;
+  padding: 5px 10px;
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: capitalize;
+}
+
+.apptStatusPill--approved {
+  background: #dcfce7;
+  color: #166534;
+}
+
+.apptStatusPill--rejected {
+  background: #fee2e2;
+  color: #991b1b;
+}
+
+.apptStatusPill--pending {
+  background: #fef3c7;
+  color: #92400e;
+}
+
+.advisorChartsGrid {
+  display: grid;
+  grid-template-columns: 1fr 1.25fr;
+  gap: 14px;
+}
+
+.advisorChartCard {
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: #ffffff;
+  padding: 12px;
+}
+
+.advisorChartCard h3 {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 600;
+}
+
+.riskChartWrap {
+  margin-top: 10px;
+  position: relative;
+}
+
+.riskCenterValue {
+  position: absolute;
+  left: 50%;
+  top: 42%;
+  transform: translate(-50%, -50%);
+  font-size: 42px;
+  font-weight: 700;
+  color: #0f172a;
+  transition: color 180ms ease;
+}
+
+.riskCenterValueWrap {
+  position: absolute;
+  left: 50%;
+  top: 43%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+}
+
+.riskCenterLabel {
+  margin-top: 34px;
+  font-size: 11px;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  color: #64748b;
+}
+
+.riskLegend {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.riskLegendItem {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  color: #334155;
+}
+
+.riskLegendDot {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+}
+
+.riskLegend--cards {
+  justify-content: stretch;
+  margin-top: 8px;
+}
+
+.riskLegendCard {
+  flex: 1;
+  min-width: 140px;
+  border: 1px solid #d8e0ec;
+  border-radius: 12px;
+  background: #f8fafc;
+  padding: 10px;
+  text-align: left;
+  cursor: pointer;
+  transition: border-color 160ms ease, box-shadow 160ms ease, transform 160ms ease;
+}
+
+.riskLegendCard:hover {
+  transform: translateY(-1px);
+}
+
+.riskLegendCard--active {
+  border-color: var(--risk-accent, #2563eb);
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--risk-accent, #2563eb) 18%, transparent);
+  background: #ffffff;
+}
+
+.riskLegendCardTop {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.riskLegendTitle {
+  font-size: 12px;
+  font-weight: 700;
+  color: #1e293b;
+}
+
+.riskLegendCardStats {
+  margin-top: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  color: #475569;
+  font-size: 12px;
+}
+
+.riskLegendCardStats strong {
+  font-size: 14px;
+  color: #0f172a;
+}
+
+.trendChartWrap {
+  margin-top: 10px;
+}
+
+.trendStats {
+  margin-top: 10px;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.trendStatBox {
+  border: 1px solid #d8e0ec;
+  border-radius: 10px;
+  background: #f8fafc;
+  padding: 8px 10px;
+}
+
+.trendStatLabel {
+  font-size: 11px;
+  color: #64748b;
+}
+
+.trendStatValue {
+  margin-top: 4px;
+  font-size: 18px;
+  font-weight: 700;
+  color: #0f172a;
+}
+
+@media (max-width: 980px) {
+  .advisorHeader h1 {
+    font-size: 28px;
+  }
+
+  .advisorMetrics {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .advisorControls {
+    grid-template-columns: 1fr;
+  }
+
+  .filterBtn,
+  .filterSelect,
+  .searchWrap,
+  .exportBtn {
+    width: 100%;
+  }
+
+  .messagesPanel {
+    grid-template-columns: 1fr;
+  }
+
+  .messageReader {
+    min-height: 240px;
+  }
+
+  .advisorChartsGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .advisorQuickActions {
+    grid-template-columns: 1fr;
+  }
+
+  .riskCenterValue {
+    font-size: 32px;
+  }
+
+  .riskLegendCard {
+    min-width: 120px;
+  }
+
+  .trendStats {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 760px) {
+  .advisorPage {
+    width: min(1240px, calc(100% - 24px));
+    padding: 14px;
+  }
+
+  .advisorPanel {
+    padding: 0;
+  }
+
+  .advisorHeader {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .advisorHeader h1 {
+    font-size: 24px;
+  }
+
+  .advisorHeader p {
+    font-size: 13px;
+  }
+
+  .advisorThemeBtn {
+    width: 42px;
+    height: 42px;
+    align-self: auto;
+  }
+
+  .advisorHeaderActions {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .advisorAvatarBtn {
+    width: 42px;
+    height: 42px;
+  }
+
+  .studentName {
+    font-size: 15px;
+  }
+
+  .advisorSectionHeader h2 {
+    font-size: 18px;
+  }
+
+  .messageFilters {
+    width: 100%;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+  }
+
+  .messageFilterBtn {
+    height: 28px;
+    font-size: 11px;
+    padding: 0 10px;
+  }
+
+  .appointmentItem {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .appointmentActions {
+    width: 100%;
+  }
+
+  .apptActionBtn {
+    flex: 1;
+    justify-content: center;
+  }
+
+  .advisorChartCard h3 {
+    font-size: 17px;
+  }
+}
+
+.advisorPage--dark .messageFilterBtn {
+  border-color: rgba(148, 163, 184, 0.32);
+  background: rgba(148, 163, 184, 0.16);
+  color: #dbe7f5;
+}
+
+.advisorPage--dark .messageFilterBtn--active {
+  border-color: #2563eb;
+  background: #2563eb;
+  color: #ffffff;
+}
+
+.advisorPage--dark .messagesList,
+.advisorPage--dark .appointmentItem,
+.advisorPage--dark .advisorChartCard,
+.advisorPage--dark .advisorNavCard {
+  border-color: rgba(148, 163, 184, 0.24);
+  background: rgba(15, 23, 42, 0.9);
+}
+
+.advisorPage--dark .advisorNavCardTitle {
+  color: #e2e8f0;
+}
+
+.advisorPage--dark .advisorNavCardSub,
+.advisorPage--dark .advisorNavCardArrow {
+  color: #9aa8bc;
+}
+
+.advisorPage--dark .advisorNavCardIconWrap {
+  background: rgba(37, 99, 235, 0.25);
+  color: #bfdbfe;
+}
+
+.advisorPage--dark .advisorNavCardIconWrap--green {
+  background: rgba(22, 163, 74, 0.26);
+  color: #86efac;
+}
+
+.advisorPage--dark .messageItem {
+  border-color: rgba(148, 163, 184, 0.3);
+  background: rgba(15, 23, 42, 0.92);
+}
+
+.advisorPage--dark .messageItem--active {
+  border-color: rgba(96, 165, 250, 0.75);
+  box-shadow: 0 0 0 2px rgba(96, 165, 250, 0.2);
+}
+
+.advisorPage--dark .messageAvatar {
+  background: rgba(37, 99, 235, 0.24);
+  color: #bfdbfe;
+}
+
+.advisorPage--dark .messageSubject,
+.advisorPage--dark .messageReaderBody,
+.advisorPage--dark .riskLegendItem,
+.advisorPage--dark .appointmentReason,
+.advisorPage--dark .appointmentTitle,
+.advisorPage--dark .riskCenterValue,
+.advisorPage--dark .trendStatValue,
+.advisorPage--dark .messageName,
+.advisorPage--dark .advisorSectionHeader h2,
+.advisorPage--dark .advisorChartCard h3 {
+  color: #e2e8f0;
+}
+
+.advisorPage--dark .messagePreview,
+.advisorPage--dark .messageTime,
+.advisorPage--dark .appointmentSubmitted,
+.advisorPage--dark .appointmentMeta,
+.advisorPage--dark .riskCenterLabel,
+.advisorPage--dark .trendStatLabel,
+.advisorPage--dark .messageReaderFrom {
+  color: #9aa8bc;
+}
+
+.advisorPage--dark .riskLegendCard {
+  border-color: rgba(148, 163, 184, 0.3);
+  background: rgba(15, 23, 42, 0.72);
+}
+
+.advisorPage--dark .riskLegendCard--active {
+  background: rgba(15, 23, 42, 0.95);
+  border-color: var(--risk-accent, #60a5fa);
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--risk-accent, #60a5fa) 22%, transparent);
+}
+
+.advisorPage--dark .riskLegendTitle,
+.advisorPage--dark .riskLegendCardStats strong {
+  color: #e2e8f0;
+}
+
+.advisorPage--dark .riskLegendCardStats {
+  color: #9aa8bc;
+}
+
+.advisorPage--dark .messageReader,
+.advisorPage--dark .emptyAppointmentBox {
+  border-color: rgba(148, 163, 184, 0.3);
+  background: rgba(15, 23, 42, 0.6);
+}
+
+.advisorPage--dark .messageReaderHead {
+  border-color: rgba(148, 163, 184, 0.24);
+}
+
+.advisorPage--dark .messageReaderEmpty,
+.advisorPage--dark .emptyAppointmentBox {
+  color: #a8b4c5;
+}
+
+.advisorPage--dark .apptActionBtn--reject {
+  background: rgba(15, 23, 42, 0.9);
+  border-color: rgba(248, 113, 113, 0.55);
+  color: #fca5a5;
+}
+
+.advisorPage--dark .apptStatusPill--approved {
+  background: rgba(22, 163, 74, 0.25);
+  color: #86efac;
+}
+
+.advisorPage--dark .apptStatusPill--rejected {
+  background: rgba(239, 68, 68, 0.24);
+  color: #fca5a5;
+}
+
+.advisorPage--dark .apptStatusPill--pending {
+  background: rgba(245, 158, 11, 0.26);
+  color: #fcd34d;
+}
+
+.advisorPage--dark .trendStatBox {
+  border-color: rgba(148, 163, 184, 0.3);
+  background: rgba(15, 23, 42, 0.72);
+}

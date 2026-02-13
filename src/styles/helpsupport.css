@@ -31,6 +31,24 @@
   margin-top: 2px;
 }
 
+.helpHeaderActions {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.helpBackBtn {
+  height: 42px;
+  border-radius: 10px;
+  border: 1px solid var(--line);
+  background: var(--card);
+  color: var(--text);
+  padding: 0 14px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
 .help-section {
   margin-top: 18px;
 }
@@ -212,12 +230,28 @@
     padding: 20px 12px 18px !important;
   }
 
+  .help-support-header {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
   .help-support-header h1 {
     font-size: 22px;
   }
 
   .help-support-header p {
     font-size: 13px;
+  }
+
+  .helpHeaderActions {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .helpBackBtn {
+    height: 40px;
+    font-size: 13px;
+    padding: 0 12px;
   }
 
   .help-section h2 {

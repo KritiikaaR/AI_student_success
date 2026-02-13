@@ -40,7 +40,7 @@ export default function Login() {
         title="Toggle theme"
         onClick={handleThemeToggle}
       >
-        {dark ? <Sun size={20} /> : <Moon size={20} />}
+        {dark ? <Sun size={18} /> : <Moon size={18} />}
       </button>
 
       <div className="loginAmbient loginAmbient--left" aria-hidden="true" />
@@ -58,7 +58,7 @@ export default function Login() {
             className={role === "student" ? "roleBtn roleBtn--active" : "roleBtn"}
             onClick={() => setRole("student")}
           >
-            <GraduationCap size={20} />
+            <GraduationCap size={18} />
             <span>Student</span>
           </button>
 
@@ -67,7 +67,7 @@ export default function Login() {
             className={role === "advisor" ? "roleBtn roleBtn--active" : "roleBtn"}
             onClick={() => setRole("advisor")}
           >
-            <Users size={20} />
+            <Users size={18} />
             <span>Advisor</span>
           </button>
         </div>
@@ -100,7 +100,7 @@ export default function Login() {
           </a>
 
           <button type="submit" className="loginSubmitBtn">
-            <GraduationCap size={20} />
+            <GraduationCap size={18} />
             <span>{role === "advisor" ? "Sign In as Advisor" : "Sign In as Student"}</span>
           </button>
         </form>

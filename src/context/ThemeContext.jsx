@@ -14,6 +14,14 @@ export function ThemeProvider({ children }) {
     window.localStorage.setItem(STORAGE_KEY, dark ? "dark" : "light");
   }, [dark]);
 
+  useEffect(() => {
+    if (typeof document === "undefined") return;
+
+    document.documentElement.style.backgroundColor = dark ? "#0b1220" : "#f8fafc";
+    document.body.style.backgroundColor = dark ? "#0b1220" : "#f8fafc";
+    document.body.style.margin = "0";
+  }, [dark]);
+
   const value = useMemo(
     () => ({
       dark,

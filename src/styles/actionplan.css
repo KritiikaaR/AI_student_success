@@ -42,6 +42,24 @@
   cursor: pointer;
 }
 
+.apHeaderActions {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.apBackBtn {
+  height: 42px;
+  border-radius: 10px;
+  border: 1px solid #d1d5db;
+  background: #ffffff;
+  color: #0f172a;
+  padding: 0 14px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
 .apList {
   flex: 1;
   padding: 6px 26px 18px;
@@ -227,7 +245,18 @@
   color: #e2e8f0;
 }
 
+.apPage--dark .apBackBtn {
+  border-color: rgba(148, 163, 184, 0.24);
+  background: rgba(15, 23, 42, 0.92);
+  color: #e2e8f0;
+}
+
 @media (max-width: 900px) {
+  .apHeader {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
   .apHeader h1 {
     font-size: 22px;
   }
@@ -243,5 +272,16 @@
 
   .priorityPill {
     margin-left: 0;
+  }
+
+  .apHeaderActions {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .apBackBtn {
+    height: 40px;
+    font-size: 13px;
+    padding: 0 12px;
   }
 }

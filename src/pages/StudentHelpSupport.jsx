@@ -1,4 +1,4 @@
-﻿import {
+import {
   BookOpen,
   CircleHelp,
   Mail,
@@ -9,6 +9,7 @@
   PhoneCall,
   Wallet,
 } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 import StudentBottomNav from "../components/StudentBottomNav";
 import "../styles/dashboard.css";
 import "../styles/helpsupport.css";
@@ -78,7 +79,8 @@ const faqs = [
 
 export default function StudentHelpSupport() {
   const { dark, toggleTheme } = useTheme();
-  
+  const navigate = useNavigate();
+
   return (
     <div className={dark ? "dash dash--dark help-support-page" : "dash help-support-page"}>
       <div className="help-support-header">
@@ -87,15 +89,20 @@ export default function StudentHelpSupport() {
           <p>We're here to help you succeed</p>
         </div>
 
-        <button
-          type="button"
-          className="iconBtn help-theme-btn"
-          aria-label="Toggle theme"
-          title="Toggle theme"
-          onClick={toggleTheme}
-        >
-          <Moon size={18} />
-        </button>
+        <div className="helpHeaderActions">
+          <button type="button" className="helpBackBtn" onClick={() => navigate("/")}>
+            Back to Dashboard
+          </button>
+          <button
+            type="button"
+            className="iconBtn help-theme-btn"
+            aria-label="Toggle theme"
+            title="Toggle theme"
+            onClick={toggleTheme}
+          >
+            <Moon size={18} />
+          </button>
+        </div>
       </div>
 
       <section className="help-section">
@@ -169,5 +176,3 @@ export default function StudentHelpSupport() {
     </div>
   );
 }
-
-

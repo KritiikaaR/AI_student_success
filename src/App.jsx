@@ -4,6 +4,8 @@ import Login from "./pages/Login";
 
 import StudentDashboard from "./pages/StudentDashboard";
 import AdvisorDashboard from "./pages/AdvisorDashboard";
+import AdvisorMessages from "./pages/AdvisorMessages";
+import AdvisorAppointments from "./pages/AdvisorAppointments";
 
 import StudentPersonalInfo from "./pages/StudentPersonalInfo";
 import StudentActionPlan from "./pages/StudentActionPlan";
@@ -20,6 +22,9 @@ export default function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/" element={<StudentDashboard />} />
           <Route path="/advisor" element={<AdvisorDashboard />} />
+          <Route path="/advisor/dashboard" element={<AdvisorDashboard />} />
+          <Route path="/advisor/messages" element={<AdvisorMessages />} />
+          <Route path="/advisor/appointments" element={<AdvisorAppointments />} />
           <Route path="/student/personal" element={<StudentPersonalInfo />} />
           <Route path="/student/requests" element={<StudentRequests />} />
           <Route path="/student/help" element={<StudentHelpSupport />} />

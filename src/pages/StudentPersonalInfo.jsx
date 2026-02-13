@@ -1,5 +1,6 @@
-﻿import "../styles/personalinfo.css";
+import "../styles/personalinfo.css";
 import StudentBottomNav from "../components/StudentBottomNav";
+import { useNavigate } from "react-router-dom";
 import {
   User,
   GraduationCap,
@@ -15,6 +16,7 @@ import { useTheme } from "../context/ThemeContext";
 
 export default function StudentPersonalInfo() {
   const { dark, toggleTheme } = useTheme();
+  const navigate = useNavigate();
 
   const student = {
     fullName: "Student Name",
@@ -37,9 +39,14 @@ export default function StudentPersonalInfo() {
           <p>View and manage your personal details</p>
         </div>
 
-        <button type="button" className="piThemeBtn" aria-label="Toggle theme" title="Toggle theme" onClick={toggleTheme}>
-          <Moon size={18} />
-        </button>
+        <div className="piHeaderActions">
+          <button type="button" className="piBackBtn" onClick={() => navigate("/")}>
+            Back to Dashboard
+          </button>
+          <button type="button" className="piThemeBtn" aria-label="Toggle theme" title="Toggle theme" onClick={toggleTheme}>
+            <Moon size={18} />
+          </button>
+        </div>
       </header>
 
       <div className="piGrid">
